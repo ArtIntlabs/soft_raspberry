@@ -9,7 +9,7 @@ import requests
 # from getmac import get_mac_address
 
 arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('--data_folder', required=True)
+arg_parser.add_argument('--data_folder', required=True, help='folder with wav files e.g. ./data/ last slash is important!')
 
 SERVER_URL = 'https://bk.tell2sell.ru'
 ADD_START_RECORDING_URL = SERVER_URL + '/api/services/app/AudioRecord/AddStartRecording'
