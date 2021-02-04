@@ -18,6 +18,15 @@ def stop(key):
         print('Stop')
         return False
 
+def convert(seconds): 
+    min, sec = divmod(seconds, 60) 
+    hour, min = divmod(min, 60) 
+    return "%d:%02d:%02d" % (hour, min, sec) 
+
+def to_td(h):
+    ho, mi, se = h.split(':')
+    return timedelta(hours=int(ho), minutes=int(mi), seconds=int(se))
+
 
 class AudioRecorder:
     def __init__(self, device, path=None, path_dir='data'):
@@ -33,6 +42,7 @@ class AudioRecorder:
             self.hour = int(self.time[:2])
             self.minute = int(self.time[2:4])
             self.second = int(self.time[4:])
+            self.time_start_rec = f'{self.hour}:{self.minute}:{self.second}'
 
             self.time_start = timedelta(hours=self.hour, minutes=self.minute)
 
@@ -78,7 +88,7 @@ class AudioRecorder:
             self.is_stop()
 
     def _detected(self):
-        if self.value > 2300:
+        if self.value > 800:
             self.start = self.counter * 4000
             self.rec = True
             self.sample += 1
@@ -109,6 +119,9 @@ class AudioRecorder:
             self.counter += 1
             self._detected()
 
+
+        
+
     def write_file(self):
         #print(f'{self.path_dir}/{self.iter_file}.wav')
         lenght = len(self.audio_frames)
@@ -116,7 +129,14 @@ class AudioRecorder:
         time_end = (self.counter * 4000) / 16000
         time_start = time_end - lenght_time
 
-        waveFile = wave.open(f'{self.path_dir}/{int(time_start)}-{int(time_end)}_{self.day}-{self.month}-{self.year}_{self.id_device}.wav', 'wb')
+        time_fragment_start = str(sum(map(to_td, [convert(time_start), self.time_start_rec]), timedelta())).replace(':', '')
+        if len(time_fragment_start) == 5:
+            time_fragment_start = '0' + time_fragment_start
+        time_fragment_end = str(sum(map(to_td, [convert(time_end), self.time_start_rec]), timedelta())).replace(':', '')
+        if len(time_fragment_end) == 5:
+            time_fragment_end = '0' + time_fragment_end
+
+        waveFile = wave.open(f'{self.path_dir}/{time_fragment_start}-{time_fragment_end}_{self.day}-{self.month}-{self.year}_{self.id_device}.wav', 'wb')
         waveFile.setnchannels(self.channels)
         waveFile.setsampwidth(self.p.get_sample_size(self.format))
         waveFile.setframerate(self.rate)
