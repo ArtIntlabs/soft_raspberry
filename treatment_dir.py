@@ -15,9 +15,8 @@ def search_file(list_fpath) -> None:
     if not os.path.exists(DIR_SAVE): os.mkdir(DIR_SAVE)
 
     for path_audio in tqdm(list_fpath):
-        print(path_audio)
         start_audio_recording(0, path_audio)
 
 
-if __name__ == '__main__':
-    search_file()
+# if __name__ == '__main__':
+    # search_file()
