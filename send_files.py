@@ -1,4 +1,4 @@
-import argparse
+import configparser
 import json
 import os
 import time
@@ -8,8 +8,7 @@ import requests
 
 # from getmac import get_mac_address
 
-arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('--data_folder', required=True, help='folder with wav files e.g. ./data/ last slash is important!')
+config = configparser.ConfigParser()
 
 SERVER_URL = 'https://bk.tell2sell.ru'
 ADD_START_RECORDING_URL = SERVER_URL + '/api/services/app/AudioRecord/AddStartRecording'
@@ -39,7 +38,7 @@ def get_file_timing(file):
 
 
 def get_file_date(file):
-    return file.split('_')[1].replace('-','.')
+    return file.split('_')[1].replace('-', '.')
 
 
 def send_file(file, session_id):
@@ -58,13 +57,14 @@ def main(args):
         time_started = time.time()
         session_id = start_session()
         while time_started - time.time() < 24 * 60 * 60:
-            current_files = os.listdir(args.data_folder)
+            current_files = os.listdir(args['dir_result'])
             for file in current_files:
-                send_file(args.data_folder + file, session_id)
-                os.remove(file)
+                send_file(args['dir_result'] + file, session_id)
+                os.remove(args['dir_result'] + file)
             time.sleep(0.5)
 
 
 if __name__ == '__main__':
-    args = arg_parser.parse_args()
-    main(args)
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    main(config['default'])
