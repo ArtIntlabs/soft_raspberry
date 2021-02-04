@@ -10,7 +10,6 @@ import requests
 
 config = configparser.ConfigParser()
 
-
 SERVER_URL = 'https://bk.tell2sell.ru'
 ADD_START_RECORDING_URL = SERVER_URL + '/api/services/app/AudioRecord/AddStartRecording'
 ADD_AUDIO_INFO_URL = SERVER_URL + '/api/services/app/AudioRecord/AddAudioInfo'
@@ -39,7 +38,7 @@ def get_file_timing(file):
 
 
 def get_file_date(file):
-    return file.split('_')[1].replace('-','.')
+    return file.split('_')[1].replace('-', '.')
 
 
 def send_file(file, session_id):
