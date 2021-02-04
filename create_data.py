@@ -8,6 +8,13 @@ import pyaudio
 import wave
 import sys
 import os
+import configparser
+
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+SEACH_DIR = config['default']['dir_result']
 
 OPEN = False
 
@@ -159,7 +166,7 @@ class AudioRecorder:
             # waveFile.close()
 
 
-def start_audio_recording(device=0, path=None, path_dir='data'):
+def start_audio_recording(device=0, path=None, path_dir=SEACH_DIR):
     if path:
         audio_thread = AudioRecorder(device, path, path_dir)
         audio_thread.read()

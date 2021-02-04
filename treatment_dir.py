@@ -1,16 +1,20 @@
 import os
 import sys
 from tqdm import tqdm
-from glob import glob
 from create_data import start_audio_recording
+import configparser
 
-DIR_SAVE = 'data/'
-DIR_RAW = 'save/'
 
-def search_file() -> None:
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+DIR_SAVE = config['default']['dir_result']
+DIR_RAW = config['default']['dir_save']
+
+def search_file(list_fpath) -> None:
     if not os.path.exists(DIR_SAVE): os.mkdir(DIR_SAVE)
 
-    for path_audio in tqdm(glob(DIR_RAW + '*.wav')):
+    for path_audio in tqdm(list_fpath):
         print(path_audio)
         start_audio_recording(0, path_audio)
 
