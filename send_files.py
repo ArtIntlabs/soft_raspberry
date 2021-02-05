@@ -11,7 +11,7 @@ import requests
 
 config = configparser.ConfigParser()
 
-LOG_FILE = '/log.log'
+LOG_FILE = './log.log'
 
 SERVER_URL = 'https://bk.tell2sell.ru'
 ADD_START_RECORDING_URL = SERVER_URL + '/api/services/app/AudioRecord/AddStartRecording'
@@ -36,12 +36,13 @@ def encode_file(file):
 
 
 def get_file_timing(file):
-    fname = file.split('-')[0][-6:]
-    return f'{fname[:2]}:{fname[2:4]}:{fname[4:6]}'
+    timing = file.split('_')[3]
+    return f'{timing[:2]}:{timing[2:4]}:{timing[4:6]}'
 
 
 def get_file_date(file):
-    return file.split('_')[1].replace('-', '.')
+    date = file.split('_')[2]
+    return f'{date[6:8]}.{date[4:6]}.{date[:4]}'
 
 
 def send_file(file, session_id):
@@ -63,7 +64,7 @@ def main(args):
             current_files = os.listdir(args['dir_result'])
             for file in current_files:
                 with open(LOG_FILE, 'a') as f:
-                    f.write(f'Sent file {file}')
+                    f.write(f'Sent file {file}\n')
                 send_file(args['dir_result'] + file, session_id)
                 os.remove(args['dir_result'] + file)
             time.sleep(0.5)
