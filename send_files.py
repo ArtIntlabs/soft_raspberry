@@ -66,5 +66,5 @@ def main(args):
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read('./config.ini')
     main(config['default'])

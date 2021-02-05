@@ -7,7 +7,7 @@ import shutil
 
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('./config.ini')
 
 SEACH_DIR = config['default']['dir_search']
 SAVE_DIR = config['default']['dir_save']

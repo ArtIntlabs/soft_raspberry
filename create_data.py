@@ -12,7 +12,7 @@ import configparser
 
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('./config.ini')
 
 SEACH_DIR = config['default']['dir_result']
 

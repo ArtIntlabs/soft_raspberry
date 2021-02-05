@@ -6,7 +6,7 @@ import configparser
 
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('./config.ini')
 
 DIR_SAVE = config['default']['dir_result']
 DIR_RAW = config['default']['dir_save']
