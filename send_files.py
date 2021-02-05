@@ -13,6 +13,9 @@ config = configparser.ConfigParser()
 
 LOG_FILE = './log.log'
 
+if not os.path.exists(LOG_FILE):
+    os.mknod(LOG_FILE)
+
 SERVER_URL = 'https://bk.tell2sell.ru'
 ADD_START_RECORDING_URL = SERVER_URL + '/api/services/app/AudioRecord/AddStartRecording'
 ADD_AUDIO_INFO_URL = SERVER_URL + '/api/services/app/AudioRecord/AddAudioInfo'
