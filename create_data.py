@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from pynput.keyboard import Key, Listener
 import matplotlib.pyplot as plt
 import concurrent.futures
