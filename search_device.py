@@ -18,7 +18,7 @@ SAVE_DIR = config['default']['dir_save']
 def moving_files(path):
     lst_faudio = []
     for fpath in glob(SEACH_DIR + path + '/*.wav'):
-        lst_faudio.append(SAVE_DIR + fpath.split('\\')[-1])
+        lst_faudio.append(SAVE_DIR + fpath.split('/')[-1])
         shutil.copy2(fpath, SAVE_DIR)
     return lst_faudio
 
