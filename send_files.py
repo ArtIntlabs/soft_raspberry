@@ -70,7 +70,7 @@ def main(args):
                     f.write(f'Sent file {file}\n')
                 send_file(args['dir_result'] + file, session_id)
                 os.remove(args['dir_result'] + file)
-            time.sleep(0.5)
+            time.sleep(50)
 
 
 if __name__ == '__main__':

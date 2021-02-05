@@ -20,7 +20,9 @@ def moving_files(path):
     lst_faudio = []
     for fpath in glob(SEACH_DIR + path + '/*.wav'):
         lst_faudio.append(RES_DIR + fpath.split('/')[-1])
-        shutil.copy2(fpath, RES_DIR)
+        # os.system(f'cp {fpath} {SAVE_DIR}')
+        shutil.copy2(fpath, SAVE_DIR)
+        shutil.copy2(SAVE_DIR + fpath.split('/')[-1], RES_DIR)
     return lst_faudio
 
 
