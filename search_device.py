@@ -13,13 +13,14 @@ config.read('./config.ini')
 
 SEACH_DIR = config['default']['dir_search']
 SAVE_DIR = config['default']['dir_save']
+RES_DIR = config['default']['dir_result']
 
 
 def moving_files(path):
     lst_faudio = []
     for fpath in glob(SEACH_DIR + path + '/*.wav'):
-        lst_faudio.append(SAVE_DIR + fpath.split('/')[-1])
-        shutil.copy2(fpath, SAVE_DIR)
+        lst_faudio.append(RES_DIR + fpath.split('/')[-1])
+        shutil.copy2(fpath, RES_DIR)
     return lst_faudio
 
 
@@ -30,8 +31,8 @@ def main_loop():
         now_dir = os.listdir(SEACH_DIR)
         if start_dir != now_dir:
             lst_faudio = [moving_files(object_dir) for object_dir in now_dir if not object_dir in start_dir]
-            if lst_faudio:
-                search_file(*lst_faudio)
+            # if lst_faudio:
+                # search_file(*lst_faudio)
             start_dir = now_dir
         time.sleep(5)
 
