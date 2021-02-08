@@ -3,11 +3,14 @@ import configparser
 import json
 import os
 import time
+import urllib
 from base64 import b64encode
+from urllib.error import URLError
 
 import requests
 
 # from getmac import get_mac_address
+
 
 config = configparser.ConfigParser()
 
@@ -21,10 +24,20 @@ ADD_START_RECORDING_URL = SERVER_URL + '/api/services/app/AudioRecord/AddStartRe
 ADD_AUDIO_INFO_URL = SERVER_URL + '/api/services/app/AudioRecord/AddAudioInfo'
 
 
+def internet_on():
+    try:
+        urllib.request.urlopen('http://216.58.192.142', timeout=1)
+        return True
+    except URLError:
+        return False
+
+
 def start_session():
     mac_address = 'b8:27:eb:af:a1:00'
     # mac_address = get_mac_address()
     request = {'stationMac': mac_address}
+    while not internet_on():
+        continue
     response = requests.post(ADD_START_RECORDING_URL, json=request)
     while response.status_code != requests.codes.OK:
         response = requests.post(ADD_START_RECORDING_URL, params=request)
@@ -51,6 +64,8 @@ def get_file_date(file):
 def send_file(file, session_id):
     mac_address = 'b8:27:eb:af:a1:00'
     # mac_address = get_mac_address()
+    while not internet_on():
+        continue
     request = {'stationMac': mac_address, 'audioFile': encode_file(file).decode('utf-8'), 'time': get_file_timing(file),
                'data': get_file_date(file), 'sessionId': session_id, 'microType': '0'}
     response = requests.post(ADD_AUDIO_INFO_URL, json=request)
