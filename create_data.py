@@ -60,7 +60,7 @@ class AudioRecorder:
 
         self.open = True
         self.format = pyaudio.paInt16
-        self.channels = 1
+            self.channels = 1
         self.rate = 16000
         self.p = pyaudio.PyAudio()
         if path:

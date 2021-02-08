@@ -6,6 +6,8 @@ from glob import glob
 import configparser
 import shutil
 import soundfile as sf
+import wave
+import pyaudio
 
 
 config = configparser.ConfigParser()
@@ -14,7 +16,10 @@ config.read('/home/pi/soft_raspberry/config.ini')
 SEACH_DIR = config['default']['dir_search']
 SAVE_DIR = config['default']['dir_save']
 RES_DIR = config['default']['dir_result']
-SIZE = int(config['default']['size'])
+
+SIZE = int(config['audio']['size'])
+SR = int(config['audio']['sr'])
+CHANNELS = int(config['audio']['channels'])
 
 
 def split_audio(fname):
@@ -27,6 +32,25 @@ def split_audio(fname):
         sf.write(f'{RES_DIR}{counter}-{fname}.wav', part_data, sr)
 
 
+def split_audio_2(fname):
+    wf = wave.open(SAVE_DIR + fname, 'rb')
+    p = pyaudio.PyAudio()
+    counter = 0
+    while True:
+        data = wf.readframes(SIZE * SR)
+        if len(data) == 0:
+            break
+
+        waveFile = wave.open(f'{RES_DIR}{counter}-{fname}.wav', 'wb')
+        waveFile.setnchannels(CHANNELS)
+        waveFile.setsampwidth(p.get_sample_size(format))
+        waveFile.setframerate(SR)
+        waveFile.writeframes(b''.join(data))
+        waveFile.close()
+
+        counter += 1
+
+
 def moving_files():
     lst_faudio = []
     for fpath in glob(SEACH_DIR + '**/*.wav'):
@@ -37,8 +61,7 @@ def moving_files():
         shutil.copy2(fpath, SAVE_DIR)
         size_file_1 = os.path.getsize(SAVE_DIR + fpath.split('/')[-1])
         if size_file_0 == size_file_1:
-            os.rename(SAVE_DIR + fpath.split('/')[-1], RES_DIR + fpath.split('/')[-1])
-            split_audio(fpath.split('/')[-1])
+            split_audio_2(fpath.split('/')[-1])
             os.remove(fpath)
         else:
             os.remove(SAVE_DIR + fpath.split('/')[-1])
