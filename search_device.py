@@ -55,6 +55,9 @@ def moving_files():
     lst_faudio = []
     for fpath in glob(SEACH_DIR + '**/*.wav'):
         if fpath in os.listdir(RES_DIR):
+            if fpath.split('/')[-1] in os.listdir(SEACH_DIR):
+                split_audio_2(fpath.split('/')[-1])
+                os.remove(fpath)
             continue
         lst_faudio.append(RES_DIR + fpath.split('/')[-1])
         size_file_0 = os.path.getsize(fpath)
