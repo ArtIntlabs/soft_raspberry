@@ -78,4 +78,4 @@ def main_loop():
 
 
 if __name__ == '__main__':
-    split_audio('test.wav')
+    main_loop()
