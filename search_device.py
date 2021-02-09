@@ -80,10 +80,10 @@ def moving_files():
 
 def main_loop():
     while True:
-        try:
-            moving_files()
-        except:
-            print('Error')
+    #     try:
+        moving_files()
+    #     # except:
+    #     #     print('Error')
         time.sleep(5)
 
 
