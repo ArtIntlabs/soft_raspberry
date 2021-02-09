@@ -50,7 +50,7 @@ def moving_files():
         if fpath in os.listdir(RES_DIR):
             if fpath.split('/')[-1] in os.listdir(SEACH_DIR):
                 split_audio_2(fpath.split('/')[-1])
-                os.remove(fpath)
+                os.remove(SAVE_DIR + fpath.split('/')[-1])
             continue
         lst_faudio.append(RES_DIR + fpath.split('/')[-1])
         size_file_0 = os.path.getsize(fpath)
