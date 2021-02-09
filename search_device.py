@@ -30,7 +30,7 @@ def split_audio_2(fname):
         if len(data) == 0:
             break
 
-        waveFile = wave.open(f'{RES_DIR}{counter}-{fname}.wav', 'wb')
+        waveFile = wave.open(f'{RES_DIR}{counter}-{fname}', 'wb')
         waveFile.setnchannels(CHANNELS)
         waveFile.setsampwidth(p.get_sample_size(pyaudio.paInt16))
         waveFile.setframerate(SR)
