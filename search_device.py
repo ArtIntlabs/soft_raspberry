@@ -36,6 +36,7 @@ def split_audio_2(fname):
         waveFile.setframerate(SR)
         waveFile.writeframes(data)
         waveFile.close()
+        del data
 
         counter += 1
 
