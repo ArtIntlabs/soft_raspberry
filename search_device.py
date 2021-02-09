@@ -5,7 +5,6 @@ import time
 from glob import glob
 import configparser
 import shutil
-import soundfile as sf
 import wave
 import pyaudio
 
@@ -20,16 +19,6 @@ RES_DIR = config['default']['dir_result']
 SIZE = int(config['audio']['size'])
 SR = int(config['audio']['sr'])
 CHANNELS = int(config['audio']['channels'])
-
-
-def split_audio(fname):
-    data, sr = sf.read(SAVE_DIR + fname)
-
-    for counter in range(len(data) // sr // SIZE + 2):
-        start = counter * SIZE * sr
-        end = start + (SIZE * sr)
-        part_data = data[start:end]
-        sf.write(f'{RES_DIR}{counter}-{fname}.wav', part_data, sr)
 
 
 def split_audio_2(fname):
