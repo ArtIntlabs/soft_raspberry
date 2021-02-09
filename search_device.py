@@ -69,6 +69,8 @@ def moving_files():
             if size_file_0 != size_file_1:
                 os.remove(SAVE_DIR + fpath.split('/')[-1])
                 shutil.copy2(fpath, SAVE_DIR)
+        else:
+            shutil.copy2(fpath, SAVE_DIR)
         size_file_1 = os.path.getsize(SAVE_DIR + fpath.split('/')[-1])
         if size_file_0 == size_file_1:
             split_audio_2(fpath.split('/')[-1])
