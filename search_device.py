@@ -43,9 +43,9 @@ def split_audio_2(fname):
 
         waveFile = wave.open(f'{RES_DIR}{counter}-{fname}.wav', 'wb')
         waveFile.setnchannels(CHANNELS)
-        waveFile.setsampwidth(p.get_sample_size(format))
+        waveFile.setsampwidth(p.get_sample_size(pyaudio.paInt16))
         waveFile.setframerate(SR)
-        waveFile.writeframes(b''.join(data))
+        waveFile.writeframes(data)
         waveFile.close()
 
         counter += 1
@@ -53,7 +53,10 @@ def split_audio_2(fname):
 
 def moving_files():
     lst_faudio = []
-    for fpath in glob(SEACH_DIR + '**/*.wav'):
+    list_file_device = glob(SEACH_DIR + '**/*.wav')
+    list_file_pc = glob(SAVE_DIR + '**/*.wav')
+    list_file = list_file_pc + list_file_device
+    for fpath in list_file:
         if fpath in os.listdir(RES_DIR):
             if fpath.split('/')[-1] in os.listdir(SEACH_DIR):
                 split_audio_2(fpath.split('/')[-1])
