@@ -76,16 +76,19 @@ def send_file(file, session_id):
 
 def main(args):
     while True:
-        time_started = time.time()
-        session_id = start_session()
-        while time_started - time.time() < 24 * 60 * 60:
-            current_files = os.listdir(args['dir_result'])
-            for file in current_files:
-                with open(LOG_FILE, 'a') as f:
+        with open(LOG_FILE, 'w') as f:
+            time_started = time.time()
+            session_id = start_session()
+            f.write('Got session id\n')
+            while time_started - time.time() < 24 * 60 * 60:
+                current_files = os.listdir(args['dir_result'])
+                f.write(f'Seeing files {current_files} at dir {args["dir_result"]}\n')
+                for file in current_files:
+                    send_file(args['dir_result'] + file, session_id)
                     f.write(f'Sent file {file}\n')
-                send_file(args['dir_result'] + file, session_id)
-                os.remove(args['dir_result'] + file)
-            time.sleep(50)
+                    os.remove(args['dir_result'] + file)
+                    f.write(f'Deleted file {file}\n')
+                time.sleep(50)
 
 
 if __name__ == '__main__':

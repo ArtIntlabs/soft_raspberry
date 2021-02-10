@@ -27,10 +27,10 @@ def stop(key):
         print('Stop')
         return False
 
-def convert(seconds): 
-    min, sec = divmod(seconds, 60) 
-    hour, min = divmod(min, 60) 
-    return "%d:%02d:%02d" % (hour, min, sec) 
+def convert(seconds):
+    min, sec = divmod(seconds, 60)
+    hour, min = divmod(min, 60)
+    return "%d:%02d:%02d" % (hour, min, sec)
 
 def to_td(h):
     ho, mi, se = h.split(':')
@@ -60,7 +60,7 @@ class AudioRecorder:
 
         self.open = True
         self.format = pyaudio.paInt16
-            self.channels = 1
+        self.channels = 1
         self.rate = 16000
         self.p = pyaudio.PyAudio()
         if path:
@@ -129,7 +129,7 @@ class AudioRecorder:
             self._detected()
 
 
-        
+
 
     def write_file(self):
         #print(f'{self.path_dir}/{self.iter_file}.wav')
