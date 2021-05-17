@@ -1,3 +1,4 @@
+from datetime import datetime
 import pyaudio
 import wave
 import os
@@ -7,7 +8,8 @@ FORMAT = pyaudio.paInt16
 RATE = 16000
 SIZE_WAV = 3600 # 3600
 CHANNELS = 1
-SAVE_DIR = 'data'
+DIR_DATA = 'data'
+SAVE_DIR = os.path.join(DIR_DATA, datetime.today().strftime('%Y-%m-%d-%H:%M:%S'))
 
 
 def save_file(filename, frames, p):
@@ -20,6 +22,8 @@ def save_file(filename, frames, p):
 
 
 def record():
+    if not os.path.exists(DIR_DATA):
+        os.mkdir(DIR_DATA)
     if not os.path.exists(SAVE_DIR):
         os.mkdir(SAVE_DIR)
 
